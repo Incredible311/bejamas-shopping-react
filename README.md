@@ -1,12 +1,12 @@
-# WAAT Frontend Assessment
+#  Frontend Assessment
 
 ## Author
 
-### Name: Andrei Strukau
-### Email: karlikboroda@gmail.com
+### Name: vicstar
+### Email: freedi.lancer@gmail.com
 
 ## Live Demo
-[WAAT Frontend Assessment](https://waat-assessment.herokuapp.com/)
+[Bejamas Frontend Assessment](https://Bejamas-assessment.herokuapp.com/)
 
 ## Description
 
