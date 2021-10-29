@@ -2,35 +2,66 @@ import React from 'react';
 import CheckBox from '../atoms/CheckBox'
 
 type filterProps = {
+    categoryFilter: any[];
     category: React.FormEventHandler<HTMLInputElement>;
+    rangeFilter: any[];
     range: React.FormEventHandler<HTMLInputElement>;
 }
 
+const categories = ["People", "Premium", "Pets", "Food", "Landmarks", "Cities", "Nature"];
+const ranges = [
+    {
+        title: "Lower than $20",
+        value: "lower20"
+    },
+    {
+        title: "$20 ~ $100",
+        value: "20-100"
+    },
+    {
+        title: "$100 ~ $200",
+        value: "100-200",
+    },
+    {
+        title: "More than $200",
+        value: "more200"
+    }
+];
+
 const FilterSidebar: React.FC<filterProps> = (props: filterProps) => {
 
-    const { category, range } = props;
+    const { categoryFilter, category, range, rangeFilter } = props;
 
     return (
         <div className="filter-sidebar">
             <p className="filter-sidebar__title">Category</p>
             <br />
             <div className="d-grid">
-                <CheckBox title="People" name="category" id="People" onChange={category} />
-                <CheckBox title="Premium" name="category" id="Premium" onChange={category}  />
-                <CheckBox title="Pets" name="category" id="Pets" onChange={category}  />
-                <CheckBox title="Food" name="category" id="Food" onChange={category}  />
-                <CheckBox title="Landmarks" name="category" id="Landmarks" onChange={category}  />
-                <CheckBox title="Cities" name="category" id="Cities" onChange={category}  />
-                <CheckBox title="Nature" name="category" id="Nature" onChange={category}  />
+                {categories.map((cat) => (
+                    <CheckBox
+                        key={cat}
+                        title={cat}
+                        name="category"
+                        id={cat}
+                        onChange={category}
+                        checked={Boolean(categoryFilter.indexOf(cat.toLocaleLowerCase()) > -1)}
+                    />
+                ))}
             </div>
             <hr className="filter-sidebar__hr" />
             <p className="filter-sidebar__title">Price range</p>
             <br />
             <div className="d-grid">
-                <CheckBox title="Lower than $20" name="price" id="lower20" onChange={range} />
-                <CheckBox title="$20 ~ $100" name="price" id="20-100" onChange={range} />
-                <CheckBox title="$100 ~ $200" name="price" id="100-200" onChange={range} />
-                <CheckBox title="More than $200" name="price" id="more200" onChange={range} />
+                {ranges.map((ran) => (
+                    <CheckBox
+                    key={ran.value}
+                    title={ran.title}
+                    name="range"
+                    id={ran.value}
+                    onChange={range}
+                    checked={Boolean(rangeFilter.indexOf(ran.value) > -1)}
+                />
+                ))}
             </div>
         </div>
     )

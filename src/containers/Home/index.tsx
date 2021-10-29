@@ -91,6 +91,21 @@ const Home: React.FC = () => {
     setPage(0);
   }, [products, rangeFilter, setRangeFilter, setPage, setProductList, setCount])
 
+  const filterMemo: any = useMemo(() => (
+    <FilterSidebar
+      categoryFilter={categoryFilter}
+      category={handleCategoryFilter}
+      rangeFilter={rangeFilter}
+      range={handleRangeFilter}
+    />
+  ), [
+    categoryFilter,
+    handleCategoryFilter,
+    rangeFilter,
+    handleRangeFilter,
+    productList
+  ])
+
   const mobileFilterMemo: any = useMemo(() => (
     mobileFilter && <div className="mobile-filter-layout">
       <div className="mobile-filter-sidebar">
@@ -99,7 +114,11 @@ const Home: React.FC = () => {
           <X onClick={() => setMobileFilter(false)} size={32} className="mobile-filter-close-btn" />
         </div>
         <div className="mobile-filter-content">
-          <FilterSidebar category={handleCategoryFilter} range={handleRangeFilter} />
+          <FilterSidebar
+            categoryFilter={categoryFilter}
+            category={handleCategoryFilter}
+            rangeFilter={rangeFilter}
+            range={handleRangeFilter} />
         </div>
         {/* <div className="mobile-filter-action-div">
           <button className="clear-btn" type="button">CLEAR</button>
@@ -107,7 +126,13 @@ const Home: React.FC = () => {
         </div> */}
       </div>
     </div>
-  ), [mobileFilter, setMobileFilter, handleRangeFilter, handleCategoryFilter])
+  ), [mobileFilter,
+    setMobileFilter,
+    handleRangeFilter,
+    handleCategoryFilter,
+    categoryFilter,
+    rangeFilter,
+    productList])
 
   const featureBlockMemo = useMemo(() => (
     featureProduct && <FeatureBlock product={featureProduct} />
@@ -181,7 +206,7 @@ const Home: React.FC = () => {
       </div>
       <div className="content-layout">
         <section className="content-layout__sidebar">
-          <FilterSidebar category={handleCategoryFilter} range={handleRangeFilter} />
+          {filterMemo}
         </section>
         <section className="content-layout__body">
           {contentBlockMemo}
