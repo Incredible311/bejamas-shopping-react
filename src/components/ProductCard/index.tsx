@@ -1,24 +1,46 @@
-import React from 'react';
-import product1 from "../../assets/images/icons/product1.png"
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from "../../redux/slices/dashboard";
+import { RootState } from '../../redux/store';
 
 type ProductCardProps = {
-    img: any;
-    category: String;
-    title: String;
-    price: number;
-    bestSeller: boolean;
+    product: any
 }
 
-const ProductCard: React.FC<ProductCardProps> = () => (
-    <div className="product-card">
-        <div className="product-image" style={{ backgroundImage: `url('${product1}')` }}>
-            <div className="best-seller-badge">Best Seller</div>
-            <button className="add-to-cart-btn" type="button">ADD TO CART</button>
+const ProductCard: React.FC<ProductCardProps> = (props: ProductCardProps) => {
+
+    const { product } = props;
+    const dispatch = useDispatch();
+    const { cart } = useSelector((state: RootState) => state.dashboard);
+
+    const addCart = useCallback(() => {
+        let temp: any[] = cart;
+        if (temp && product) {
+            const exist = temp.find((p: any) => p.id === product.id)
+            if (!exist) {
+                temp = Object.assign([], temp);
+                temp.push(product);
+            }
+        }
+        localStorage.setItem("cart", JSON.stringify(temp));
+        dispatch(setCart(temp));
+    }, [product, dispatch, cart])
+
+    return (
+        <div className="product-card">
+            <div className="product-image">
+                <div className="product-image-content">
+                    <img src={product.image.src} alt="product" />
+                </div>
+                {product.bestseller && <div className="best-seller-badge">Best Seller</div>}
+                <button onClick={() => addCart()}
+                    className="add-to-cart-btn" type="button">ADD TO CART</button>
+            </div>
+            <p className="product-category">{product.category}</p>
+            <h3 className="product-title">{product.name}</h3>
+            <p className="product-price">${product.price}</p>
         </div>
-        <p className="product-category">People</p>
-        <h3 className="product-title">Red Bench</h3>
-        <p className="product-price">$3.89</p>
-    </div>
-)
+    )
+}
 
 export default ProductCard

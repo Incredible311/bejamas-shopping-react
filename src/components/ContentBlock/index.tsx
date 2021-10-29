@@ -1,30 +1,31 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Grid } from '@material-ui/core';
 import ProductCard from "../ProductCard"
 
-const ContentBlock: React.FC = () => (
-    <div>
-        <Grid container>
-            <Grid item lg={4} md={6} sm={6}  xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
+type contentBlockProps = {
+    products: any[]
+}
+
+const ContentBlock: React.FC<contentBlockProps> = (props: contentBlockProps) => {
+
+    const { products } = props;
+
+    const productListMemo = useMemo(() => (
+        products && products.map((product: any) => (
+            <Grid key={product.id} item lg={4} md={6} sm={6} xs={12}>
+                <ProductCard
+                    product={product} />
             </Grid>
-            <Grid item lg={4} md={6} sm={6}  xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
+        ))
+    ), [products])
+
+    return (
+        <div>
+            <Grid container>
+                {productListMemo}
             </Grid>
-            <Grid item lg={4} md={6} sm={6} xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
-            </Grid>
-            <Grid item lg={4} md={6} sm={6}  xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
-            </Grid>
-            <Grid item lg={4} md={6} sm={6}  xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
-            </Grid>
-            <Grid item lg={4} md={6} sm={6} xs={12}>
-                <ProductCard img="" category="" title="" price={36.9} bestSeller />
-            </Grid>
-        </Grid>
-    </div>
-)
+        </div>
+    )
+}
 
 export default ContentBlock

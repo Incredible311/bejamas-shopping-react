@@ -87,8 +87,152 @@ hr {
         width: 75%;
         padding: 0;
         margin-bottom: 40px;
+
+        .no-products {
+            font-size: 32px;
+            text-align: center;
+            font-family: 'Archivo';
+            padding: 200px 0;
+        }
     }
 }
+
+.pagination-layout {
+    justify-content: center;
+    margin-top: 40px;
+    .pagination-tag {
+        font-family: 'Archivo';
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #B4B4B4;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+    }
+
+    .pagination-tag:hover {
+        background: #000000;
+        color: #ffffff;
+    }
+
+    .disabled {
+        svg {
+            color: #666666;
+        }
+    }
+
+    .disabled:hover {
+        background: none!important;
+    }
+
+    .select {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .prev {
+        color: #000;
+    }
+
+    .next {
+        color: #000;
+    }
+}
+
+.mobile-filter-layout {
+    display: none;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .2);
+    height: 100%;
+    .mobile-filter-sidebar {
+        background-color: #ffffff;
+        width: 100%;
+        position: relative;
+        height: 100%;
+        .mobile-filter-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 15px;
+            h3 {
+                font-family: 'Archivo';
+                font-style: normal;
+                font-weight: bold;
+                font-size: 34px;
+                line-height: 37px;
+                color: #000000;
+                margin: 0;
+            }
+            .mobile-filter-close-btn {
+                cursor: pointer;
+            }
+        }
+        .mobile-filter-content {
+            overflow-y: auto;
+            height: 75%;
+        }
+        .mobile-filter-action-div {
+            width: 95%;
+            padding: 25px 15px;
+            bottom: 0;
+            border-top: 2px solid #E4E4E4;
+            position: absolute;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .clear-btn {
+                background: #ffffff;
+                font-family: 'Archivo';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 23px;
+                line-height: 25px;
+                letter-spacing: 0.07em;
+                outline: none;
+                color: #000000;
+                padding: 13px 39px;
+                cursor: pointer;
+                transition: all 0.2s;
+                border: 1px solid #000000;
+                margin-right: 15px;
+            }
+            .clear-btn:hover {
+                background: #000000;
+                color: #ffffff;
+            }
+            .save-btn {
+                background: #000000;
+                font-family: 'Archivo';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 23px;
+                line-height: 25px;
+                letter-spacing: 0.07em;
+                outline: none;
+                color: #FFFFFF;
+                padding: 13px 39px;
+                cursor: pointer;
+                transition: all 0.2s;
+                border: 1px solid #000000;
+            }
+            .save-btn:hover {
+                background: #ffffff;
+                color: #000000;
+            }
+        }
+        
+    }
+}
+
 
 ::-webkit-scrollbar-track {
     border-radius: 10px;
@@ -130,12 +274,16 @@ hr {
     .content-layout {
         display: block;
         .content-layout__sidebar {
-            width: 100%;
+            display: none;
         }
 
         .content-layout__body {
             width: 100%;
         }
+    }
+
+    .mobile-filter-layout {
+        display: block;
     }
 }
 
