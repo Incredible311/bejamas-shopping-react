@@ -27,11 +27,11 @@ const Home: React.FC = () => {
   const handleSort = useCallback((event) => {
     const tmp: any[] = products.filter((product: any) => !product.featured && product);
     if (event.currentTarget.value === "name") {
-      tmp.sort((a, b) =>  a.name.localeCompare(b.name));
+      tmp.sort((a, b) => a.name.localeCompare(b.name));
     } else if (event.currentTarget.value === "price") {
-      tmp.sort((a, b) =>  a.price - b.price);
+      tmp.sort((a, b) => a.price - b.price);
     }
-    setSort( event.currentTarget.value)
+    setSort(event.currentTarget.value)
     setProductList(tmp)
   }, [sort, setSort, products, setProductList])
 
@@ -101,13 +101,13 @@ const Home: React.FC = () => {
         <div className="mobile-filter-content">
           <FilterSidebar category={handleCategoryFilter} range={handleRangeFilter} />
         </div>
-        <div className="mobile-filter-action-div">
+        {/* <div className="mobile-filter-action-div">
           <button className="clear-btn" type="button">CLEAR</button>
           <button className="save-btn" type="button">SAVE</button>
-        </div>
+        </div> */}
       </div>
     </div>
-  ), [mobileFilter, setMobileFilter])
+  ), [mobileFilter, setMobileFilter, handleRangeFilter, handleCategoryFilter])
 
   const featureBlockMemo = useMemo(() => (
     featureProduct && <FeatureBlock product={featureProduct} />
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
     if (products) {
       products.filter((product: any) => product.featured && setFeatureProduct(product));
       const tmp = products.filter((product: any) => !product.featured && product);
-      tmp.sort((a: any, b: any) =>  a.name.localeCompare(b.name));
+      tmp.sort((a: any, b: any) => a.name.localeCompare(b.name));
       setProductList(tmp);
       setCount(tmp.length);
     }
