@@ -53,7 +53,7 @@ const Header: React.FC = () => {
         </div>
         <div className="header__action d-flex-center cart-btn">
           <ShoppingCart size={28} onClick={handleClick} />
-          <div className="cart-count-num">{cart.length}</div>
+          {cart.length > 0 && <div className="cart-count-num">{cart.length}</div>}
         </div>
 
       </header>
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
         <img className="mobile-header__logo img-logo" src={logo} alt="logo" />
         <div className="cart-btn">
           <ShoppingCart size={28} onClick={handleClick} />
-          <div className="cart-count-num">{cart.length}</div>
+          {cart.length > 0 && <div className="cart-count-num">{cart.length}</div>}
         </div>
 
       </header>
