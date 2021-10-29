@@ -26,34 +26,48 @@ const Home: React.FC = () => {
   const [sortDirection, setSortDirection] = useState<string>("up");
 
   const handleSortDirection = useCallback(() => {
+    const tmp: any[] = productList;
     if (sortDirection === "up") {
-      setSortDirection("down")
+      setSortDirection("down");
+      if (sort === "name") {
+        tmp.sort((a, b) => b.name.localeCompare(a.name));
+      } else {
+        tmp.sort((a, b) => b.price - a.price);
+      }
     } else {
-      setSortDirection("up")
-    }
-    setPage(0)
-
-  }, [sortDirection, setSortDirection, setPage])
-
-  const handleSort = useCallback((event) => {
-    const tmp: any[] = products.filter((product: any) => !product.featured && product);
-    if (event.currentTarget.value === "name") {
-      if (sortDirection === "up") {
+      setSortDirection("up");
+      if (sort === "name") {
         tmp.sort((a, b) => a.name.localeCompare(b.name));
       } else {
+        tmp.sort((a, b) => a.price - b.price);
+
+      }
+    }
+
+    setProductList(tmp)
+    setPage(0)
+
+  }, [sortDirection, setSortDirection, setPage, productList, setProductList, sort])
+
+  const handleSort = useCallback((event) => {
+    const tmp: any[] = productList;
+    if (event.currentTarget.value === "name") {
+      if (sortDirection === "up") {
         tmp.sort((a, b) => b.name.localeCompare(a.name));
+      } else {
+        tmp.sort((a, b) => a.name.localeCompare(b.name));
       }
     } else if (event.currentTarget.value === "price") {
       if (sortDirection === "up") {
-        tmp.sort((a, b) => a.price - b.price);
-      } else {
         tmp.sort((a, b) => b.price - a.price);
+      } else {
+        tmp.sort((a, b) => a.price - b.price);
       }
     }
     setSort(event.currentTarget.value)
     setProductList(tmp)
     setPage(0)
-  }, [sort, setSort, products, setProductList, sortDirection, setPage])
+  }, [sort, setSort, products, setProductList, sortDirection, setPage, productList])
 
   const handleCategoryFilter = useCallback((event: any) => {
     const value = event.currentTarget.id;
@@ -164,7 +178,7 @@ const Home: React.FC = () => {
     return sliceProducts.length > 0 ?
       <ContentBlock products={sliceProducts} /> :
       <div className="no-products">No data</div>
-  }, [productList, page, categoryFilter, rangeFilter, sort])
+  }, [productList, page, categoryFilter, rangeFilter, sort, sortDirection])
 
   const goToPage = useCallback((num) => {
     const pages = Math.ceil(count / perPage);
@@ -207,7 +221,7 @@ const Home: React.FC = () => {
       setCount(tmp.length);
     }
 
-  }, [dispatch, page, sortDirection]);
+  }, [dispatch, page]);
 
 
   return (
@@ -222,7 +236,7 @@ const Home: React.FC = () => {
           {/* <Sort /> */}
           <div className="d-flex-center">
             <ArrowUp color={sortDirection === "up" ? "#000000" : "#666666"} />
-            <ArrowDown color={sortDirection === "down" ? "#000000" : "#666666"}/>
+            <ArrowDown color={sortDirection === "down" ? "#000000" : "#666666"} />
           </div>
           <div
             aria-label="sort by"
