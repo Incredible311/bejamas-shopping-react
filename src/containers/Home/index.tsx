@@ -31,7 +31,9 @@ const Home: React.FC = () => {
     } else {
       setSortDirection("up")
     }
-  }, [sortDirection, setSortDirection])
+    setPage(0)
+
+  }, [sortDirection, setSortDirection, setPage])
 
   const handleSort = useCallback((event) => {
     const tmp: any[] = products.filter((product: any) => !product.featured && product);
@@ -50,7 +52,8 @@ const Home: React.FC = () => {
     }
     setSort(event.currentTarget.value)
     setProductList(tmp)
-  }, [sort, setSort, products, setProductList, sortDirection])
+    setPage(0)
+  }, [sort, setSort, products, setProductList, sortDirection, setPage])
 
   const handleCategoryFilter = useCallback((event: any) => {
     const value = event.currentTarget.id;
