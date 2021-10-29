@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import TabModel from '../../utils/models/TabModel';
 
 interface stateTypes {
   isLoading: boolean;
-  tabs: TabModel[];
   errorMessage: string;
   products: [];
   cart: [];
@@ -13,7 +11,6 @@ interface stateTypes {
 
 const initialState: stateTypes = {
   isLoading: false,
-  tabs: [],
   errorMessage: '',
   products: JSON.parse(localStorage.getItem('products') || '[]') || [],
   cart: JSON.parse(localStorage.getItem('cart') || '[]') || []
@@ -31,17 +28,10 @@ export const slice = createSlice({
     // INITIALISE
     getInitialize(state) {
       state.isLoading = true;
-      state.tabs = [];
       state.errorMessage = '';
       state.products = [];
       state.cart = []
       localStorage.clear();
-    },
-
-    // SET USERS
-    setTabs(state, action) {
-      state.isLoading = false;
-      state.tabs = action.payload.tabs;
     },
 
     setProducts(state, action) {
