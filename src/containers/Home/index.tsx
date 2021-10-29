@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { X, ChevronLeft, ChevronRight } from "react-feather";
+import { X, ChevronLeft, ChevronRight, ArrowUp, ArrowDown } from "react-feather";
 import { RootState } from '../../redux/store';
 import { getProducts } from "../../redux/slices/dashboard";
 import DefaultLayout from '../../assets/layout/DefaultLayout';
 import FeatureBlock from '../../components/FeatureBlock';
 import FilterSidebar from '../../components/FilterSidebar';
 import ContentBlock from '../../components/ContentBlock';
-import { ReactComponent as Sort } from "../../assets/images/icons/sort.svg";
+// import { ReactComponent as Sort } from "../../assets/images/icons/sort.svg";
 import { ReactComponent as Filter } from "../../assets/images/icons/filter.svg";
 
 const Home: React.FC = () => {
@@ -23,17 +23,34 @@ const Home: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [rangeFilter, setRangeFilter] = useState<string[]>([]);
   const [sort, setSort] = useState<string>("name");
+  const [sortDirection, setSortDirection] = useState<string>("up");
+
+  const handleSortDirection = useCallback(() => {
+    if (sortDirection === "up") {
+      setSortDirection("down")
+    } else {
+      setSortDirection("up")
+    }
+  }, [sortDirection, setSortDirection])
 
   const handleSort = useCallback((event) => {
     const tmp: any[] = products.filter((product: any) => !product.featured && product);
     if (event.currentTarget.value === "name") {
-      tmp.sort((a, b) => a.name.localeCompare(b.name));
+      if (sortDirection === "up") {
+        tmp.sort((a, b) => a.name.localeCompare(b.name));
+      } else {
+        tmp.sort((a, b) => b.name.localeCompare(a.name));
+      }
     } else if (event.currentTarget.value === "price") {
-      tmp.sort((a, b) => a.price - b.price);
+      if (sortDirection === "up") {
+        tmp.sort((a, b) => a.price - b.price);
+      } else {
+        tmp.sort((a, b) => b.price - a.price);
+      }
     }
     setSort(event.currentTarget.value)
     setProductList(tmp)
-  }, [sort, setSort, products, setProductList])
+  }, [sort, setSort, products, setProductList, sortDirection])
 
   const handleCategoryFilter = useCallback((event: any) => {
     const value = event.currentTarget.id;
@@ -178,12 +195,16 @@ const Home: React.FC = () => {
     if (products) {
       products.filter((product: any) => product.featured && setFeatureProduct(product));
       const tmp = products.filter((product: any) => !product.featured && product);
-      tmp.sort((a: any, b: any) => a.name.localeCompare(b.name));
+      if (sortDirection === "up") {
+        tmp.sort((a: any, b: any) => a.name.localeCompare(b.name));
+      } else {
+        tmp.sort((a: any, b: any) => b.name.localeCompare(a.name));
+      }
       setProductList(tmp);
       setCount(tmp.length);
     }
 
-  }, [dispatch, page]);
+  }, [dispatch, page, sortDirection]);
 
 
   return (
@@ -195,8 +216,19 @@ const Home: React.FC = () => {
           Photography / <span style={{ color: '#9B9B9B' }}>Premium Photos</span>
         </h3>
         <div className="d-flex-center sort-div">
-          <Sort />
-          <p className="sort-by-title">SORT BY</p>
+          {/* <Sort /> */}
+          <div className="d-flex-center">
+            <ArrowUp color={sortDirection === "up" ? "#000000" : "#666666"} />
+            <ArrowDown color={sortDirection === "down" ? "#000000" : "#666666"}/>
+          </div>
+          <div
+            aria-label="sort by"
+            className="sort-by-title"
+            onClick={() => handleSortDirection()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={() => handleSortDirection()}
+          >SORT BY</div>
           <select className="sort-by-select" onChange={(e) => handleSort(e)} value={sort}>
             <option value="price">Price</option>
             <option value="name">Name</option>
